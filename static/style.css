@@ -1,0 +1,148 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fce4ec; /* Light pink background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 600px;
+    height: 90vh;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #f8bbd0; /* Soft pink header */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #f48fb1;
+    color: #4e342e; /* Brownish text for contrast */
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 500;
+}
+
+.chat-header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+}
+
+.chat-header a {
+    color: #ad1457; /* Deeper pink for links */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.chat-header a:hover {
+    text-decoration: underline;
+}
+
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    padding: 12px 18px;
+    border-radius: 20px;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+.user-message {
+    background-color: #e1f5fe; /* Light blue for user messages */
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.bot-message {
+    background-color: #f3e5f5; /* Light purple for bot messages */
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.bot-message p {
+    margin: 0;
+}
+
+.bot-message .classification {
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.bot-message .confidence {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.chat-input {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: #f48fb1; /* Pink highlight on focus */
+}
+
+#send-btn {
+    background-color: #ec407a; /* Bright pink send button */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-left: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+#send-btn:hover {
+    background-color: #d81b60; /* Darker pink on hover */
+}
+
+#new-chat-btn {
+    background-color: #78909c; /* Grey button */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-left: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+#new-chat-btn:hover {
+    background-color: #546e7a; /* Darker grey on hover */
+} 
