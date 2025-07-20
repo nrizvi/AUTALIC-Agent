@@ -82,8 +82,8 @@ def search_autalic_paper(query: str):
             results.append(line)
 
     if not results:
-        # If no results are found for a specific query, direct the user to the website
-        return "For more information, check out nrizvi.github.io/AUTALIC.html"
+        # If no results are found, return a markdown link to the website
+        return "[The AUTALIC research paper is available here](https://nrizvi.github.io/AUTALIC.html)"
 
     return "\n".join(results)
 

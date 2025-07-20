@@ -34,13 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Create and append the answer part if it exists
                 if (restOfMessage) {
                     const answerElement = document.createElement("p");
-                    answerElement.textContent = restOfMessage;
+                    answerElement.innerHTML = marked.parse(restOfMessage); // Use marked to parse markdown
                     messageElement.appendChild(answerElement);
                 }
             } else {
                 // No <think> tags, just display the message as is
                 const p = document.createElement("p");
-                p.textContent = messageText;
+                p.innerHTML = marked.parse(messageText); // Use marked to parse markdown
                 messageElement.appendChild(p);
             }
         }
