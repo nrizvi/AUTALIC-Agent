@@ -53,6 +53,8 @@ def search_autalic_paper(query: str):
     if not AUTALIC_PAPER_CONTENT:
         return "Paper content not loaded. Cannot search."
 
+    link_text = "\n\n[The AUTALIC research paper is available here](https://nrizvi.github.io/AUTALIC.html)"
+
     # Define vague queries that should return the core contribution by default
     vague_queries = ["paper", "publication", "text", "full-text", "autalic", "the paper"]
     if query.lower().strip() in vague_queries:
@@ -70,7 +72,7 @@ def search_autalic_paper(query: str):
                 if in_section and line.strip():
                     section_content.append(line)
             if section_content:
-                return "\n".join(section_content)
+                return "\n".join(section_content) + link_text
         except Exception:
             # Fallback if parsing fails, just do a normal search
             pass
@@ -83,9 +85,9 @@ def search_autalic_paper(query: str):
 
     if not results:
         # If no results are found, return a markdown link to the website
-        return "[The AUTALIC research paper is available here](https://nrizvi.github.io/AUTALIC.html)"
+        return f"I could not find any information about '{query}'. For more details, you can read the full paper. {link_text}"
 
-    return "\n".join(results)
+    return "\n".join(results) + link_text
 
 
 # --- Agent Class ---
