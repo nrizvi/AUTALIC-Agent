@@ -46,21 +46,47 @@ def get_sentence_examples(category: str, num_examples: int = 3):
 
 def search_autalic_paper(query: str):
     """
-    Searches the content of the AUTALIC paper summary for a given query. Use this
-    to answer questions about the AUTALIC paper, its findings, or its methodology.
+    Searches the content of the AUTALIC paper summary. If the query is vague 
+    (e.g., 'the paper'), it returns the core contribution. Otherwise, it searches 
+    for specific information.
     """
     if not AUTALIC_PAPER_CONTENT:
         return "Paper content not loaded. Cannot search."
-    
+
+    # Define vague queries that should return the core contribution by default
+    vague_queries = ["paper", "publication", "text", "full-text", "autalic", "the paper"]
+    if query.lower().strip() in vague_queries:
+        try:
+            # Extract the Core Contribution section
+            content_lines = AUTALIC_PAPER_CONTENT.splitlines()
+            in_section = False
+            section_content = []
+            for line in content_lines:
+                if "### 1. Core Contribution" in line:
+                    in_section = True
+                    continue
+                if in_section and line.startswith("###"):
+                    break
+                if in_section and line.strip():
+                    section_content.append(line)
+            if section_content:
+                return "\n".join(section_content)
+        except Exception:
+            # Fallback if parsing fails, just do a normal search
+            pass
+
+    # If not a vague query or parsing failed, perform a specific search
     results = []
     for line in AUTALIC_PAPER_CONTENT.splitlines():
         if re.search(query, line, re.IGNORECASE):
             results.append(line)
-            
+
     if not results:
-        return f"No information found for '{query}'. Try a broader search term."
-        
+        # If no results are found for a specific query, direct the user to the website
+        return "For more information, check out nrizvi.github.io/AUTALIC.html"
+
     return "\n".join(results)
+
 
 # --- Agent Class ---
 
@@ -82,7 +108,7 @@ class AutalicAgent:
                 "1.  To analyze sentences for anti-autistic ableism. \n"
                 "2.  To answer questions about the AUTALIC research paper. \n"
                 "3.  To engage in friendly, general conversation. \n\n"
-                "When a user provides a sentence for analysis, you MUST use your tools if needed and then respond with a single, valid JSON object containing 'classification' and 'confidence' keys. Do not add any conversational text to the JSON response. \n"
+                "When a user provides a sentence for analysis, you MUST first show your reasoning inside <think>...</think> tags. Then, on a new line, provide the analysis in the format: 'I classify this sentence as [classification] with [confidence]% confidence.' Do not output a JSON object for the analysis. \n"
                 "When a user asks a question about the AUTALIC paper, you MUST use the `search_autalic_paper` tool to find the relevant information and then answer in a clear, conversational, and helpful manner. \n"
                 "For all other interactions (greetings, general chat), just be a friendly conversationalist. Do not try to analyze these messages or use tools unless explicitly asked."
             ),

@@ -34,13 +34,8 @@ async def chat(chat_request: ChatRequest):
 
         chat_history.append({"role": "assistant", "content": response_content})
 
-        try:
-            json_response = json.loads(response_content)
-            print("DEBUG: Agent response parsed as JSON.")
-            return JSONResponse(content={"type": "analysis", "data": json_response})
-        except (json.JSONDecodeError, TypeError) as e:
-            print(f"DEBUG: Agent response is not JSON or caused TypeError: {e}")
-            return JSONResponse(content={"type": "conversation", "data": response_content})
+        # All responses are now treated as conversational text
+        return JSONResponse(content={"type": "conversation", "data": response_content})
 
     except Exception as e:
         print(f"--- SERVER ERROR --- \n{e}")

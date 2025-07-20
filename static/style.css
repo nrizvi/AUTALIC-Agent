@@ -93,6 +93,11 @@ body {
     color: #666;
 }
 
+.bot-message .think-text {
+    /* Increased margin to create a more pronounced space (~2 line breaks) for readability. */
+    margin-bottom: 2em;
+}
+
 .chat-input {
     display: flex;
     padding: 20px;

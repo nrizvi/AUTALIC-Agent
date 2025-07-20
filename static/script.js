@@ -12,23 +12,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message", `${sender}-message`);
 
-        if (sender === 'bot') {
-            if (content.type === 'analysis') {
-                const { classification, confidence } = content.data;
-                const confPercent = confidence !== undefined ? (confidence * 100).toFixed(1) : 'N/A';
-                messageElement.innerHTML = `
-                    <p class="classification">Classification: ${classification}</p>
-                    <p class="confidence">Confidence: ${confPercent}%</p>
-                `;
-            } else { // 'conversation' or fallback
-                const p = document.createElement("p");
-                p.textContent = content.data || content; // Handle both object and plain string
-                messageElement.appendChild(p);
-            }
-        } else { // user message
+        if (sender === 'user') {
             const p = document.createElement("p");
             p.textContent = content;
             messageElement.appendChild(p);
+        } else { // This is a bot message
+            const messageText = content.data || content;
+            const thinkRegex = /<think>(.*?)<\/think>/s;
+            const match = messageText.match(thinkRegex);
+
+            if (match) {
+                const thinkText = match[1].trim();
+                const restOfMessage = messageText.replace(thinkRegex, '').trim();
+
+                // Create and append the formatted 'thinking' part
+                const thinkElement = document.createElement("p");
+                thinkElement.classList.add("think-text");
+                thinkElement.innerHTML = `<i>*thinking* ${thinkText} *end thinking*</i><br><br>`;
+                messageElement.appendChild(thinkElement);
+
+                // Create and append the answer part if it exists
+                if (restOfMessage) {
+                    const answerElement = document.createElement("p");
+                    answerElement.textContent = restOfMessage;
+                    messageElement.appendChild(answerElement);
+                }
+            } else {
+                // No <think> tags, just display the message as is
+                const p = document.createElement("p");
+                p.textContent = messageText;
+                messageElement.appendChild(p);
+            }
         }
 
         chatBox.appendChild(messageElement);
